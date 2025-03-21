@@ -1,0 +1,47 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  password      String
+  cnpj          String   @unique
+  whatsapp      String
+  logoUrl       String?
+  street        String
+  city          String
+  state         String
+  zipCode       String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  downloads     Download[]
+}
+
+model Art {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  formats     Json     // Will store different image formats and their S3 URLs
+  category    String   // e.g., "CHRISTMAS", "NEW_YEAR"
+  type        String   // "STORY" or "FEED"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  downloads   Download[]
+}
+
+model Download {
+  id        String   @id @default(uuid())
+  companyId String
+  artId     String
+  company   Company  @relation(fields: [companyId], references: [id])
+  art       Art      @relation(fields: [artId], references: [id])
+  createdAt DateTime @default(now())
+}
