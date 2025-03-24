@@ -14,6 +14,13 @@ async function bootstrap() {
     forbidNonWhitelisted: true,
   }));
 
+  // Enable CORS for localhost:3001
+  app.enableCors({
+    origin: ['http://localhost:3001', 'http://localhost:3000'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+  });
+
   // Configure Swagger
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, document, {

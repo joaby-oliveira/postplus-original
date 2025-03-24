@@ -6,8 +6,8 @@ services:
     container_name: postplus-original
     build: .
     volumes:
-      - ./:/usr/src/app
-      - node_modules:/usr/src/app/node_modules
+      - .:/usr/src/app:rw
+      - /usr/src/app/node_modules
     environment:
       - NODE_ENV=${NODE_ENV}
       - DB_HOST=${DB_HOST}
@@ -77,4 +77,5 @@ networks:
 volumes:
   postgres_data:
   localstack_data:
+  app_data:
   node_modules:

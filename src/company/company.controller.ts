@@ -199,6 +199,7 @@ export class CompanyController {
     @Param('id') id: string,
     @UploadedFile() file: Express.Multer.File,
   ) {
+    console.log('uploadLogo company');
     return this.companyService.uploadLogo(id, file);
   }
 } 

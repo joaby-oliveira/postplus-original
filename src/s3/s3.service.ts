@@ -8,11 +8,11 @@ export class S3Service {
 
   constructor(private configService: ConfigService) {
     this.s3 = new AWS.S3({
-      accessKeyId: this.configService.get('aws.accessKeyId'),
-      secretAccessKey: this.configService.get('aws.secretAccessKey'),
-      endpoint: this.configService.get('aws.s3.endpoint'),
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      endpoint: process.env.AWS_ENDPOINT,
       s3ForcePathStyle: true,
-      region: this.configService.get('aws.region'),
+      region: process.env.AWS_REGION,
     });
   }
 
