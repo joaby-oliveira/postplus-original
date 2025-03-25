@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import configuration from './config/configuration';
 import { ArtsModule } from './arts/arts.module';
 import { AuthModule } from './auth/auth.module';
-import awsConfig from './config/aws.config';
 import { CompanyModule } from './company/company.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [awsConfig],
       isGlobal: true,
+      load: [configuration],
     }),
     ArtsModule,
     CompanyModule,

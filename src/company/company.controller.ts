@@ -61,60 +61,18 @@ export class CompanyController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
-  @ApiOperation({ 
-    summary: 'Listar todas as empresas',
-    description: 'Retorna uma lista de todas as empresas cadastradas. Requer autenticação.'
-  })
-  @ApiResponse({ 
-    status: 200, 
-    description: 'Lista de empresas retornada com sucesso',
-    schema: {
-      example: [{
-        id: '123e4567-e89b-12d3-a456-426614174000',
-        name: 'Empresa Exemplo',
-        email: 'contato@empresaexemplo.com',
-        whatsapp: '5511999999999',
-        street: 'Rua Exemplo, 123',
-        city: 'São Paulo',
-        state: 'SP',
-        zipCode: '01001-000',
-        logoUrl: 'https://s3.amazonaws.com/bucket/logo.jpg'
-      }]
-    }
-  })
-  @ApiResponse({ status: 401, description: 'Não autorizado' })
-  findAll() {
+  @ApiOperation({ summary: 'Listar todas as empresas', description: 'Retorna uma lista com todas as empresas cadastradas' })
+  @ApiResponse({ status: 200, description: 'Lista de empresas retornada com sucesso' })
+  async findAll() {
     return this.companyService.findAll();
   }
 
   @Get(':id')
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
-  @ApiOperation({ 
-    summary: 'Buscar empresa específica',
-    description: 'Retorna os detalhes de uma empresa específica pelo ID. Requer autenticação.'
-  })
-  @ApiResponse({ 
-    status: 200, 
-    description: 'Empresa encontrada com sucesso',
-    schema: {
-      example: {
-        id: '123e4567-e89b-12d3-a456-426614174000',
-        name: 'Empresa Exemplo',
-        email: 'contato@empresaexemplo.com',
-        whatsapp: '5511999999999',
-        street: 'Rua Exemplo, 123',
-        city: 'São Paulo',
-        state: 'SP',
-        zipCode: '01001-000',
-        logoUrl: 'https://s3.amazonaws.com/bucket/logo.jpg'
-      }
-    }
-  })
-  @ApiResponse({ status: 401, description: 'Não autorizado' })
+  @ApiOperation({ summary: 'Buscar empresa específica', description: 'Retorna os dados de uma empresa específica' })
+  @ApiResponse({ status: 200, description: 'Empresa encontrada com sucesso' })
   @ApiResponse({ status: 404, description: 'Empresa não encontrada' })
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.companyService.findOne(id);
   }
 

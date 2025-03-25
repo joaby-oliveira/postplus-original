@@ -32,19 +32,28 @@ export class CompanyService {
   }
 
   async findAll() {
-    return this.prisma.company.findMany({
+    const companies = await this.prisma.company.findMany({
       select: {
         id: true,
         name: true,
         email: true,
+        cnpj: true,
         whatsapp: true,
+        logoUrl: true,
         street: true,
         city: true,
         state: true,
         zipCode: true,
-        logoUrl: true,
-      },
+        createdAt: true,
+        updatedAt: true,
+        downloads: true,
+      }
     });
+
+    return companies.map(company => ({
+      ...company,
+      logoUrl: company.logoUrl?.replace('localstack:4566', 'localhost:4566')
+    }));
   }
 
   async findOne(id: string) {
@@ -54,20 +63,31 @@ export class CompanyService {
         id: true,
         name: true,
         email: true,
+        cnpj: true,
         whatsapp: true,
+        logoUrl: true,
         street: true,
         city: true,
         state: true,
         zipCode: true,
-        logoUrl: true,
-      },
+        createdAt: true,
+        updatedAt: true,
+        downloads: {
+          include: {
+            art: true,
+          }
+        },
+      }
     });
 
     if (!company) {
-      throw new NotFoundException(`Company with ID ${id} not found`);
+      throw new NotFoundException('Empresa não encontrada');
     }
 
-    return company;
+    return {
+      ...company,
+      logoUrl: company.logoUrl?.replace('localstack:4566', 'localhost:4566')
+    };
   }
 
   async update(id: string, updateCompanyDto: UpdateCompanyDto) {
